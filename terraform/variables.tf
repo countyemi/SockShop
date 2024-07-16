@@ -5,7 +5,7 @@ variable "region" {
 }
 
 variable "cluster_name" {
-    description = "EKS cluster name"
+    description = "EKS Cluster Name"
     type = string
     default = "SockShop-Cluster"
   
