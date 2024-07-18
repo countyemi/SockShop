@@ -30,9 +30,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1      
 
-      # Runs a single command using the runners shell
+      # Create bucket to store state file
+      - name: Check if state bucket exists
+        id: check-bucket
+        run: |
+          bucket_name="bald-eagle-sockshop-state-2433"
+          if aws s3api head-bucket --bucket "$bucket_name" 2>/dev/null; then
+            echo "::set-output name=bucket_exists::true"
+          else
+            echo "::set-output name=bucket_exists::false"
+          fi
+
       - name: Create Bucket for state file
-        run: aws s3 mb s3://bald-eagle-sockshop-state-2433
+        if: steps.check-bucket.outputs.bucket_exists == 'false'
+        run: |
+          aws s3 mb s3://bald-eagle-sockshop-state-2433
         
         
       # Set up Terraform and create cluster
