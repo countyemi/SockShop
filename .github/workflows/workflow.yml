@@ -77,7 +77,7 @@ jobs:
       - name: Update Kubeconfig file
         run: |
           aws eks update-kubeconfig --name SockShop-Cluster --region us-east-1
-          kubectl create namespace sock-shop
+          
 
       - name: Update Helm dependencies and install or upgrade release
         run: |
