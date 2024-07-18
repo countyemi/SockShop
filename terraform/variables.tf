@@ -18,9 +18,4 @@ variable "AZ" {
   
 }
 
-variable "bucket_name" {
-  
-  type = string
-  default = "bald-eagle-sockshop-state-2433"
-  
-}
+
