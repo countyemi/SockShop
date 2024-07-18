@@ -78,6 +78,11 @@ jobs:
         run: |
           aws eks update-kubeconfig --name SockShop-Cluster --region us-east-1
 
+      - name: Create namespace
+       
+        run: kubectl create namespace sock-shop
+          
+
       - name: Install cert-manager CRDs
         run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml
