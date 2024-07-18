@@ -31,7 +31,7 @@ jobs:
           aws-region: us-east-1      
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Create Bucket for state file
         run: aws s3 mb s3://bald-eagle-sockshop-state-2433
         
         
@@ -57,15 +57,21 @@ jobs:
           terraform  -chdir=terraform/ init
           terraform  -chdir=terraform/ apply --auto-approve    
 
-      - name: Install helm dependencies and template
+      - name: Set up Helm
+        uses: azure/setup-helm@v4.2.0
+        with:
+          version: v3.9.4
+
+      - name: Update Kubeconfig file
         run: |
-          timeout 75 bash -c '
-            end=$((SECONDS+60))
-            while [ $SECONDS -lt $end ]; do
-              echo " "
-              sleep 1
-            done
-            '
+          aws eks update-kubeconfig --name SockShop-Cluster --region us-east-1
+          kubectl create namespace sock-shop
+
+      - name: Update Helm dependencies and install or upgrade release
+        run: |
+          helm dependency update /SockShopChart &&
+          helm install release1 /SockShopChart --namespace sock-shop     
+          
 
         
 

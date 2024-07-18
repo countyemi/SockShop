@@ -3,10 +3,13 @@ kind: Ingress
 metadata:
   name: sockshop-ingress
   namespace: sock-shop
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
   rules:
-    - host: sockshop.countyemi.site
+    - host: sock.countyemi.site
       http:
         paths:
           - pathType: Prefix
@@ -23,7 +26,7 @@ spec:
             path: /
             backend:
               service:
-                name: grafana
+                name: release1-grafana
                 port:
                   number: 80
     - host: alert.countyemi.site
@@ -33,7 +36,14 @@ spec:
             path: /
             backend:
               service:
-                name: prometheus-alertmanager
+                name: release1-prometheus-alertmanager
                 port:
                   number: 80
+
+  tls:
+    - hosts:
+        - sockshop.countyemi.site
+        - grafana.countyemi.site
+        - alert.countyemi.site
+      secretName: tls-secret
 
