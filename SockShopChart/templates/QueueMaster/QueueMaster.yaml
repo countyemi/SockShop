@@ -23,7 +23,7 @@ spec:
          - name: JAVA_OPTS
            valueFrom:
             configMapKeyRef:
-              name: carts-config
+              name: queue-config
               key: JAVA_OPTS
         resources:
           limits:
