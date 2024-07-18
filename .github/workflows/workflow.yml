@@ -81,8 +81,8 @@ jobs:
 
       - name: Update Helm dependencies and install or upgrade release
         run: |
-          helm dependency update SockShopChart &&
-          helm install release1 /SockShopChart --namespace sock-shop     
+          helm dependency update ./SockShopChart &&
+          helm install release1 ./SockShopChart --namespace sock-shop     
           
 
         
