@@ -90,7 +90,7 @@ jobs:
       - name: Update Helm dependencies and install 
         run: |
           helm dependency update ./SockShopChart 
-          helm install sockShop ./SockShopChart --namespace sock-shop     
+          helm install sock1 ./SockShopChart --namespace sock-shop     
           
 
         
