@@ -28,7 +28,7 @@ spec:
           - name: MYSQL_DATABASE
             valueFrom: 
               configMapKeyRef:
-                name:  carts-config
+                name:  mysql-config
                 key: MYSQL_DATABASE
       
         ports:
