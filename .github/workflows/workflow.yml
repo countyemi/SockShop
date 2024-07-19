@@ -77,12 +77,9 @@ jobs:
       - name: Update Kubeconfig file
         run: |
           aws eks update-kubeconfig --name SockShop-Cluster --region us-east-1
+          kubectl create namespace sock-shop
 
-      - name: Create namespace
-       
-        run: kubectl create namespace sock-shop
-          
-
+  #set up lets-encrypt certificate manager
       - name: Install cert-manager CRDs
         run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml
@@ -93,7 +90,7 @@ jobs:
       - name: Update Helm dependencies and install 
         run: |
           helm dependency update ./SockShopChart 
-          helm install release1 ./SockShopChart --namespace sock-shop     
+          helm install sockShop ./SockShopChart --namespace sock-shop     
           
 
         
