@@ -69,4 +69,5 @@ module "eks" {
       desired_size = 2
     }
   }
+enable_cluster_creator_admin_permissions = true
 }
