@@ -74,3 +74,105 @@ The images for the application, listed below are hosted on dockerhub:
 Let’s go through the setup and leave the pipeline as the last step.
 </p>
 <h3>Terraform</h3>
+<p> The terraform code to create the cluster is in the terraform directory.
+I used the VPC and EKS modules for this. The cluster will be created in the VPC ID created from the VPC module.<br>
+I have defined parameters for the cluster to create two node groups in two AZs and  use:
+  <ul>
+    <li> Instance types: t2.medium   </li>
+    <li> Min-size: 1   </li>
+    <li>  Scale to max-size: 2  </li>
+  </ul>
+  The state file will be stored in an S3 bucket
+</p>
+<hr>
+<h3>Application Deployment</h3>
+<p> To simplify the application deployment, I used helm. 
+By running: </p>
+
+```bash
+helm create SockShopChart
+```
+<p>The SockShopChart directory is created with default files.
+My custom kubernetes definition files are in the <i>SockShopChart/templates/</i> directory. 
+While the charts will be defined as dependencies in the <i>SockShopChart/Charts.yaml</i> file.
+</p>
+<hr>
+<h3>Monitoring</h3>
+<p>For monitoring, the Prometheus and grafana charts will be used as defined in the <i>SockShopChart/Charts.yaml</i> file as dependencies</p>
+<hr>
+<h3>Pipeline</h3>
+<p>The pipeline will be triggered on code push to the main branch and goes through these phases:</p>
+
+<p align="center"><img src="https://github.com/user-attachments/assets/b0f3fa7c-ca96-4dd0-9b34-6258ea786e95" alt="Complete Job Build" width="100%" />
+        Complete Job Build
+</p>
+</p>
+<h4>Retrieves AWS credentials in repository secrets</h4>
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/185afb7c-9e2a-430d-ab63-65a5198abb5b" alt="Workflow Code" width="100%"/></td>
+    <td><img src="https://github.com/user-attachments/assets/80b48e2a-9e4e-4b1d-82ba-646f01d09612" alt="Workflow Output" width="100%"/></td>
+    </tr>
+  <tr>
+    <td align="center">Step Code</td>
+    <td align="center">Step Output</td>
+ 
+  </tr>
+</table>
+
+<h4>Checks if the state file bucket already exists before attempting to create it</h4>
+<table style="width: 100%;">
+  <tr>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/f24f7a7f-1482-4aac-9a84-00474f7fc277" alt="Step Output" width="400" />
+            <br />
+      <b>Step Code</b>
+    </td>
+    <td align="center" style="width: 50%;">
+      <img src="https://github.com/user-attachments/assets/c4109565-17f7-4ee0-9385-4613ce1c8a7a" alt="Step Code" width="400" />
+      <br />
+      <b>Step Output</b>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4268004d-fb34-4727-ae32-aa511264d31f" alt="Creates Bucket" width="400" />
+  <br />
+  <b>Creates Bucket</b>
+</p>
+
+<h4>Checks if cluster already exists</h4>
+<table style="width: 100%;">
+  <tr>
+    <td align="center" style="width: 50%;">
+      <img src="https://github.com/user-attachments/assets/2aadf596-7cc9-41c8-8a0a-83579c04469c" alt="Step Code" width="400" />
+      <br />
+      <b>Step Code</b>
+    </td>
+    <td align="center" style="width: 50%;">
+      <img src="https://github.com/user-attachments/assets/7cefd82c-02dc-4b61-8f79-06e9da5b97c7" alt="Step Output" width="400" />
+      <br />
+      <b>Step Output</b>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f854cf98-6432-4060-a8a0-7c51febba126" alt="Creates Cluster" width="400" />
+  <br />
+  <b>Creates Cluster</b>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
