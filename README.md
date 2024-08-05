@@ -1,6 +1,17 @@
 <h1>Deploy SockShop Microservice With EKS</h1>
 <p>Amazon Elastic Kubernetes Service (EKS) provides an option of automating cluster management, allowing developers focus more on deploying and managing applications. It handles the availability and scaling of the resources in the cluster using predefined parameters. 
 This project will show a systematic guide on deploying an ecommerce website using EKS. </p> <br>
+
+<p>The deployment process will be as shown:</p>
+<img src="https://github.com/user-attachments/assets/8c79d830-1d0a-40f5-8dbe-edf5f575a80a" alt="Resources Diagram Flow" width="600" />
+
+<p>And resources will be created and accessed as shown:</p>
+<img src="https://github.com/user-attachments/assets/bd572ab3-8734-4e60-b040-e2289c9e2abd" alt="Resources Plan" width="600" />
+
+
+
+
+
 The images for the application, listed below are hosted on dockerhub:
 <table border="1">
   <thead>
@@ -142,7 +153,7 @@ While the charts will be defined as dependencies in the <i>SockShopChart/Charts.
   <b>Creates Bucket</b>
 </p>
 
-<h4>Checks if cluster already exists</h4>
+<h4>Checks if cluster already exists before creating</h4>
 <table style="width: 100%;">
   <tr>
     <td align="center" style="width: 50%;">
@@ -163,6 +174,142 @@ While the charts will be defined as dependencies in the <i>SockShopChart/Charts.
   <br />
   <b>Creates Cluster</b>
 </p>
+
+
+<h4>Update kubeconfig file and create sock-shop namespace</h4>
+<table style="width: 100%;">
+  <tr>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/87b24450-b8be-4a58-a065-7b01b92f90ed" alt="Step Output" width="400" />
+       <br />
+      <b>Step Code</b>
+    </td>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/9b40c917-1c78-4f5c-940d-a20929bbe2e6" alt="Step Code" width="400" />
+      <br />
+      <b>Step Output</b>
+    </td>
+  </tr>
+</table>
+
+<h4>Create certificate manager for SSL/TLS</h4>
+<table style="width: 100%;">
+  <tr>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/db23bebd-3fae-467b-9433-6a8c799c0a78" alt="Create Certificate Manager" width="400" />
+    </td>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/2b572798-1ba8-48af-9d55-5eb12cffc1a9" alt="Create Certificate Manager" width="400" />
+    </td>
+  </tr>
+</table>
+
+<h4>Install helm dependencies and custom files in the templates directory</h4>
+<table style="width: 100%;">
+  <tr>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/198f1b1e-ca9f-4fab-926e-1d6c3b07d520" alt="Install Helm Dependencies" width="400" />
+    </td>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/8ddb4a7d-a67c-4829-b864-77b9050b7a06" alt="Install Helm Dependencies" width="400" />
+    </td>
+  </tr>
+</table>
+<br/>
+
+<p>When the pipeline completes:</p>
+
+<h4>The cluster is created</h4>
+<img src="https://github.com/user-attachments/assets/b7ba96d8-ad75-49ca-9039-e39e7d0b2399" alt="Cluster Created" width="400" />
+
+<h4>Load balancer is created by the ingress controller</h4>
+<img src="https://github.com/user-attachments/assets/bb6a7850-7761-4be5-a426-6fb0ca89677b" alt="Load Balancer" width="400" />
+
+<h4>A records for access with Route 53</h4>
+<img src="https://github.com/user-attachments/assets/691267e3-539a-4549-8f05-edf890032a1a" alt="Route 53 Records" width="400" />
+
+<h4>The pods are running</h4>
+<img src="https://github.com/user-attachments/assets/c96b8f98-4d52-4200-9598-b405b87816c6" alt="Pods Running" width="400" />
+
+<h4>The corresponding services are running</h4>
+<img src="https://github.com/user-attachments/assets/309cb74f-843b-4676-809d-2e5bccfd621e" alt="Services Running" width="400" />
+
+<h4>Front end is being served as well</h4>
+<img src="https://github.com/user-attachments/assets/a92221d4-207d-443e-9c21-ef43d28d00ea" alt="Front End" width="1200" />
+
+
+<h4>Logs from Prometheus</h4>
+<table style="width: 100%;">
+  <tr>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/c2a10eaf-79fa-41c7-8f28-024e5c11ab8e" alt="Prometheus Logs" width="400" />
+    </td>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/ab23b1e6-6479-4e46-9f82-ccbbefe73ed8" alt="Memory Graph" width="400" />
+    </td>
+  </tr>
+</table>
+
+<h4>Monitoring on Grafana</h4>
+<img src="https://github.com/user-attachments/assets/135f266c-2559-467e-97fa-d82460ae0755" alt="Grafana Monitoring" width="400" />
+
+<h4>Monitoring on Lens</h4>
+<table style="width: 100%;">
+  <tr>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/48f1f6a1-e6af-47d7-a9be-a51bfc4f141b" alt="Lens Monitoring" width="400" />
+    </td>
+    <td align="center" style="width: 50%;">
+       <img src="https://github.com/user-attachments/assets/efc40879-5b94-447f-becf-b0d58f89268f" alt="Lens Monitoring 2" width="400" />
+    </td>
+  </tr>
+</table>
+
+<h4>Logs can also be downloaded as a CSV file for further analysis</h4>
+<img src="https://github.com/user-attachments/assets/46eeab3f-93db-455e-a7cd-572c07588c20" alt="Logs CSV" width="400" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
